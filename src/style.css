@@ -1,0 +1,79 @@
+:root {
+  --bg: #0f0f12;
+  --fg: #f4f4f5;
+  --track: #45454e;
+  --accent: #c7f705;
+  --wordmark-size: clamp(2.5rem, 11vw, 7rem);
+}
+
+@property --p {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.wordmark {
+  margin: 0;
+  font-size: var(--wordmark-size);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+/* The "o" is the font's own glyph; a conic gradient clipped to it sweeps the fill around the letter.
+   --ox/--oy (glyph centre, set by main.js from font metrics) keep the sweep centred on the letter. */
+.o {
+  --p: 0deg;
+  --ox: 50%;
+  --oy: 50%;
+  color: transparent;
+  background: conic-gradient(
+    from var(--from) at var(--ox) var(--oy),
+    var(--accent) calc(var(--p) - 0.5deg),
+    var(--track) calc(var(--p) + 0.5deg)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: --p 0.15s ease-out;
+}
+
+.o--first {
+  --from: -90deg;
+}
+
+.o--second {
+  --from: 90deg;
+}
+
+.scroll-space {
+  height: 400vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o {
+    transition: none;
+  }
+}
